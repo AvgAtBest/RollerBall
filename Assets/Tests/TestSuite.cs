@@ -45,23 +45,28 @@ namespace Tests
 		public IEnumerator ItemCollidesWithPlayer()
 		{
 			//Get Player
-
+			Debug.Log("test");
 			Item item = Object.FindObjectOfType<Item>();
-
-			if(item == null)
+			Player player = gameManager.GetComponentInChildren<Player>();
+			if (item == null)
 			{
+				Debug.Log("item is null");
 				Assert.Fail();
-			}
-			if(player == null)
-			{
-				Assert.Fail();
-			}
-			player.transform.position = new Vector3(0, 2, 0);
 
-			item.transform.position = new Vector3(0, 2, 0);
+			}
+			if (player == null)
+			{
+				Debug.Log("player is null");
+				Assert.Fail();
+
+			}
+			player.transform.position = new Vector3(0, 2f, 0);
+			Debug.Log(player.transform.position);
+			item.transform.position = new Vector3(0, 2f, 0);
+			Debug.Log(item.transform.position);
 			//Get Item
 			//Position both in the same location
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(2f);
 
 			Assert.IsTrue(item == null);
 			//Asset that item should be destroyed
@@ -70,9 +75,9 @@ namespace Tests
 		[UnityTest]
 		public IEnumerator PlayerShootsItem()
 		{
-
+			Player player = gameManager.GetComponentInChildren<Player>();
 			Item item = Object.FindObjectOfType<Item>();
-
+			//Player player = gameManager.GetComponentInChildren<Player>();
 			player.transform.position = new Vector3(0, 3, -3);
 			item.transform.position = new Vector3(0, 3, 0);
 
@@ -86,12 +91,14 @@ namespace Tests
 		{
 			Item item = Object.FindObjectOfType<Item>();
 
+			GameManager gameManager = Object.FindObjectOfType<GameManager>();
+			Player player = gameManager.GetComponentInChildren<Player>();
 			int oldScore = gameManager.score;
 
 			player.transform.position = new Vector3(0, 4, 0);
 			item.transform.position = new Vector3(0, 4, 0);
 
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(2f);
 
 			Assert.IsTrue(gameManager.score == oldScore + 1);
 		}
